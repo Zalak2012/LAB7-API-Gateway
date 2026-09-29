@@ -1,0 +1,279 @@
+{
+  "info": {
+    "name": "Lab 7 - API Gateway, Service Discovery & Cloud",
+    "description": "CampusConnect Lab 7 – All requests routed through the API Gateway (single entry point).\n\nCovers:\n• Gateway health check\n• Gateway-routed CRUD for Users, Products, Orders\n• 502/503 error handling for unreachable services",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "GATEWAY_URL",
+      "value": "http://localhost:3000",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Gateway Health Check",
+      "item": [
+        {
+          "name": "GET /health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{GATEWAY_URL}}/health",
+              "host": ["{{GATEWAY_URL}}"],
+              "path": ["health"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Users (via Gateway)",
+      "item": [
+        {
+          "name": "GET /users – List All Users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{GATEWAY_URL}}/users",
+              "host": ["{{GATEWAY_URL}}"],
+              "path": ["users"]
+            }
+          }
+        },
+        {
+          "name": "GET /users/101 – Single User",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{GATEWAY_URL}}/users/101",
+              "host": ["{{GATEWAY_URL}}"],
+              "path": ["users", "101"]
+            }
+          }
+        },
+        {
+          "name": "POST /users – Create User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Zalak Thakkar\",\n  \"email\": \"zalak@campusconnect.edu\",\n  \"role\": \"Student\",\n  \"department\": \"Computer Science\"\n}"
+            },
+            "url": {
+              "raw": "{{GATEWAY_URL}}/users",
+              "host": ["{{GATEWAY_URL}}"],
+              "path": ["users"]
+            }
+          }
+        },
+        {
+          "name": "PUT /users/101 – Update User",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"department\": \"Data Analytics\"\n}"
+            },
+            "url": {
+              "raw": "{{GATEWAY_URL}}/users/101",
+              "host": ["{{GATEWAY_URL}}"],
+              "path": ["users", "101"]
+            }
+          }
+        },
+        {
+          "name": "DELETE /users/101 – Delete User",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{GATEWAY_URL}}/users/101",
+              "host": ["{{GATEWAY_URL}}"],
+              "path": ["users", "101"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Products (via Gateway)",
+      "item": [
+        {
+          "name": "GET /products – List All Products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{GATEWAY_URL}}/products",
+              "host": ["{{GATEWAY_URL}}"],
+              "path": ["products"]
+            }
+          }
+        },
+        {
+          "name": "GET /products/501 – Single Product",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{GATEWAY_URL}}/products/501",
+              "host": ["{{GATEWAY_URL}}"],
+              "path": ["products", "501"]
+            }
+          }
+        },
+        {
+          "name": "POST /products – Create Product",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Wireless Mouse\",\n  \"price\": 19.99,\n  \"category\": \"Electronics\",\n  \"stock\": 50\n}"
+            },
+            "url": {
+              "raw": "{{GATEWAY_URL}}/products",
+              "host": ["{{GATEWAY_URL}}"],
+              "path": ["products"]
+            }
+          }
+        },
+        {
+          "name": "PUT /products/501 – Update Product",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"price\": 44.99,\n  \"stock\": 30\n}"
+            },
+            "url": {
+              "raw": "{{GATEWAY_URL}}/products/501",
+              "host": ["{{GATEWAY_URL}}"],
+              "path": ["products", "501"]
+            }
+          }
+        },
+        {
+          "name": "DELETE /products/501 – Delete Product",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{GATEWAY_URL}}/products/501",
+              "host": ["{{GATEWAY_URL}}"],
+              "path": ["products", "501"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Orders (via Gateway)",
+      "item": [
+        {
+          "name": "GET /orders – List All Orders",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{GATEWAY_URL}}/orders",
+              "host": ["{{GATEWAY_URL}}"],
+              "path": ["orders"]
+            }
+          }
+        },
+        {
+          "name": "GET /orders/ord_901 – Single Order",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{GATEWAY_URL}}/orders/ord_901",
+              "host": ["{{GATEWAY_URL}}"],
+              "path": ["orders", "ord_901"]
+            }
+          }
+        },
+        {
+          "name": "POST /orders – Create Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": \"101\",\n  \"productId\": \"501\",\n  \"quantity\": 3\n}"
+            },
+            "url": {
+              "raw": "{{GATEWAY_URL}}/orders",
+              "host": ["{{GATEWAY_URL}}"],
+              "path": ["orders"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Error Handling Tests",
+      "item": [
+        {
+          "name": "502/503 – Unreachable Service Scenario",
+          "description": "To test: stop one of the backend services (e.g., docker compose stop user-service) then hit this endpoint. Expect a 502 Bad Gateway response.",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{GATEWAY_URL}}/users",
+              "host": ["{{GATEWAY_URL}}"],
+              "path": ["users"]
+            }
+          }
+        },
+        {
+          "name": "404 – Unknown Gateway Route",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{GATEWAY_URL}}/nonexistent",
+              "host": ["{{GATEWAY_URL}}"],
+              "path": ["nonexistent"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

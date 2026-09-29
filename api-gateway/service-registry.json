@@ -1,0 +1,19 @@
+{
+  "services": {
+    "user-service": {
+      "url": "http://user-service:3001",
+      "pathPrefix": "/users",
+      "description": "Handles user CRUD operations"
+    },
+    "product-service": {
+      "url": "http://product-service:3002",
+      "pathPrefix": "/products",
+      "description": "Handles product CRUD operations"
+    },
+    "order-service": {
+      "url": "http://order-service:3003",
+      "pathPrefix": "/orders",
+      "description": "Handles order creation, listing, and inter-service communication"
+    }
+  }
+}

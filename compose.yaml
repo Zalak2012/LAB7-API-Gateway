@@ -1,0 +1,62 @@
+services:
+  # ── User Microservice ──────────────────────────────────────────────────────
+  user-service:
+    build: ./user-service
+    container_name: user-service
+    # NO ports published — reachable only from within the Docker network
+    environment:
+      - USER_SERVICE_PORT=3001
+      - PORT=3001
+      - MONGO_URI=${MONGO_URI_USERS:-mongodb+srv://zalakthakkar:zalak2012@cluster0.mongodb.net/user_db?retryWrites=true&w=majority}
+    networks:
+      - campus-network
+
+  # ── Product Microservice ───────────────────────────────────────────────────
+  product-service:
+    build: ./product-service
+    container_name: product-service
+    environment:
+      - PRODUCT_SERVICE_PORT=3002
+      - PORT=3002
+      - MONGO_URI=${MONGO_URI_PRODUCTS:-mongodb+srv://zalakthakkar:zalak2012@cluster0.mongodb.net/product_db?retryWrites=true&w=majority}
+    networks:
+      - campus-network
+
+  # ── Order Microservice ─────────────────────────────────────────────────────
+  order-service:
+    build: ./order-service
+    container_name: order-service
+    environment:
+      - ORDER_SERVICE_PORT=3003
+      - PORT=3003
+      - USER_SERVICE_URL=http://user-service:3001
+      - PRODUCT_SERVICE_URL=http://product-service:3002
+      - MONGO_URI=${MONGO_URI_ORDERS:-mongodb+srv://zalakthakkar:zalak2012@cluster0.mongodb.net/order_db?retryWrites=true&w=majority}
+    depends_on:
+      - user-service
+      - product-service
+    networks:
+      - campus-network
+
+  # ── API Gateway (Single Entry Point) ───────────────────────────────────────
+  # ONLY the gateway's port is exposed externally.
+  api-gateway:
+    build: ./api-gateway
+    container_name: api-gateway
+    ports:
+      - "${GATEWAY_PORT:-3000}:3000"
+    environment:
+      - PORT=3000
+      - USER_SERVICE_URL=http://user-service:3001
+      - PRODUCT_SERVICE_URL=http://product-service:3002
+      - ORDER_SERVICE_URL=http://order-service:3003
+    depends_on:
+      - user-service
+      - product-service
+      - order-service
+    networks:
+      - campus-network
+
+networks:
+  campus-network:
+    driver: bridge
