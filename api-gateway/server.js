@@ -136,9 +136,17 @@ app.get("/health", (req, res) => {
 });
 
 // ── Reverse-Proxy Route Handlers ────────────────────────────────────────────
-app.use("/users*", (req, res) => proxyRequest(USER_SERVICE_URL, req, res));
-app.use("/products*", (req, res) => proxyRequest(PRODUCT_SERVICE_URL, req, res));
-app.use("/orders*", (req, res) => proxyRequest(ORDER_SERVICE_URL, req, res));
+app.use("/users", (req, res) =>
+  proxyRequest(USER_SERVICE_URL, req, res)
+);
+
+app.use("/products", (req, res) =>
+  proxyRequest(PRODUCT_SERVICE_URL, req, res)
+);
+
+app.use("/orders", (req, res) =>
+  proxyRequest(ORDER_SERVICE_URL, req, res)
+);
 
 // ── 404 Catch-All ───────────────────────────────────────────────────────────
 app.use((req, res) => {
