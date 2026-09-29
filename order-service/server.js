@@ -5,7 +5,8 @@ const mongoose = require("mongoose");
 
 const app = express();
 const PORT = process.env.ORDER_SERVICE_PORT || process.env.PORT || 3003;
-const MONGO_URI = process.env.MONGO_URI;
+const MONGO_URI =
+  process.env.MONGO_URI_ORDERS || process.env.MONGO_URI;
 
 const USER_SERVICE_URL = process.env.USER_SERVICE_URL || "http://user-service:3001";
 const PRODUCT_SERVICE_URL = process.env.PRODUCT_SERVICE_URL || "http://product-service:3002";
