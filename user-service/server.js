@@ -5,7 +5,9 @@ const mongoose = require("mongoose");
 
 const app = express();
 const PORT = process.env.USER_SERVICE_PORT || process.env.PORT || 3001;
-const MONGO_URI = process.env.MONGO_URI;
+// const MONGO_URI = process.env.MONGO_URI;
+const MONGO_URI =
+  process.env.MONGO_URI_USERS || process.env.MONGO_URI;
 
 app.use(cors());
 app.use(express.json());
